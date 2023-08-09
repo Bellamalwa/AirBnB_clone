@@ -2,19 +2,15 @@
 """This is the base model class for AirBnB Clone"""
 import uuid
 from datetime import datetime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import String, DateTime, Column
 import models
 
-Base = declarative_base()
 
 class BaseModel:
     """This class defines common methods for other classes"""
 
-    id = Column(String(60), unique=True, nullable=False,
-                primary_key=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    id = str(uuid.uuid4())
+    created_at = datetime.utcnow()
+    updated_at = datetime.utcnow()
 
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
@@ -49,22 +45,14 @@ class BaseModel:
             returns a string of class name, id, and dictionary
         """
         dic = self.to_dict()
-        # del dic['__class__']
-        # dic['created_at'] = datetime.strptime(dic['created_at'],
-        #                                       "%Y-%m-%dT%H:%M:%S")
-        # dic['updated_at'] = datetime.strptime(dic['updated_at'],
-        #                                       "%Y-%m-%dT%H:%M:%S")
-        return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, dic)
+        return "[{}] ({}) {}".format(type(self).__name__, self.id, dic)
 
     def __repr__(self):
-        """return a string representaion
-        """
+        """return a string representaion"""
         return self.__str__()
 
     def save(self):
-        """updates the public instance attribute updated_at to current
-        """
+        """updates the public instance attribute updated_at to current"""
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
@@ -78,11 +66,15 @@ class BaseModel:
         my_dict["__class__"] = type(self).__name__
         my_dict["created_at"] = my_dict["created_at"].isoformat()
         my_dict["updated_at"] = my_dict["updated_at"].isoformat()
-        if '_sa_instance_state' in my_dict.keys():
-            my_dict.pop('_sa_instance_state', None)
+        if "_sa_instance_state" in my_dict.keys():
+            my_dict.pop("_sa_instance_state", None)
         return my_dict
 
+    # NOTE: Implement delete function later
+    """
     def delete(self):
-        """Delete the current instance from the storage
-        (models.storage) by calling the method delete"""
+        ""Delete the current instance from the storage
+        (models.storage) by calling the method delete""
         models.storage.delete(self)
+
+    """
