@@ -8,10 +8,6 @@ import models
 class BaseModel:
     """This class defines common methods for other classes"""
 
-    id = str(uuid.uuid4())
-    created_at = datetime.utcnow()
-    updated_at = datetime.utcnow()
-
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
         Args:
@@ -37,7 +33,9 @@ class BaseModel:
                 setattr(self, "updated_at", time)
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now()
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
+            models.storage.new(self)
 
     def __str__(self):
         """returns a string
