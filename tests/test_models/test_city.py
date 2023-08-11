@@ -1,52 +1,53 @@
 #!/usr/bin/python3
-""" test City model """
+"""Unit test for City Model"""
 
-import unittest
+from unittest import TestCase, main
 from models.base_model import BaseModel
 from models.city import City
 
 
-class TestState(unittest.TestCase):
-    """ test City model"""
+class TestState(TestCase):
+    """Test City model"""
+
     @classmethod
     def setUp(cls):
-        """steup class """
+        """setup class"""
         cls.city = City()
-        cls.city.name = "toor"
-        cls.city.state_id = "111"
+        cls.city.name = "root"
+        cls.city.state_id = "777"
         cls.city.save()
 
-    def test_field_name(self):
-        """ test first name field"""
-        dummy_instance = City()
-        self.assertEqual(self.city.name, "toor")
+    def test_attr_name(self):
+        """Test first name attr"""
+        city_1 = City()
+        self.assertEqual(self.city.name, "root")
         self.assertIsInstance(self.city.name, str)
-        self.assertEqual(dummy_instance.name, "")
+        self.assertEqual(city_1.name, "")
 
-    def test_field_state_id(self):
-        """ test state_id field"""
-        dummy_instance = City()
-        self.assertEqual(self.city.state_id, "111")
+    def test_attr_state_id(self):
+        """Test state_id attr"""
+        city_1 = City()
+        self.assertEqual(self.city.state_id, "777")
         self.assertIsInstance(self.city.state_id, str)
-        self.assertEqual(dummy_instance.state_id, "")
+        self.assertEqual(city_1.state_id, "")
 
     def test_save_method(self):
         """test save method"""
-        dummy_instance = City()
-        dummy_instance.save()
-        self.assertNotEqual(
-            dummy_instance.created_at, dummy_instance.updated_at)
+        city_1 = City()
+        city_1.save()
+        self.assertNotEqual(city_1.created_at, city_1.updated_at)
 
-    def test_class_user(self):
-        """ instance should be User; user should be subclass of BaseModel """
+    def test_city_class(self):
+        """instance should be City; city should be a subclass of BaseModel"""
         self.assertTrue(issubclass(City, BaseModel))
         self.assertIsInstance(self.city, City)
 
     @classmethod
     def tearDownClass(cls):
-        """clear everything"""
+        """Delete everything"""
         del cls.city.name
         del cls.city
 
-if __name__ == '__main__':
-    unittest.main()
+
+if __name__ == "__main__":
+    main()
