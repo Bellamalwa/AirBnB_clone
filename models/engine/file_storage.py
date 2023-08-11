@@ -41,7 +41,8 @@ class FileStorage:
         Saves the object blob to File Storage
         new_obj is a dictionary format for the object storage
         """
-        new_obj = {key: values.to_dict() for key, values in self.__objects.items()}
+        new_obj = {key: values.to_dict()
+                   for key, values in self.__objects.items()}
         with open(self.__file_path, "w", encoding="utf8") as file:
             file.write(json.dumps(new_obj))
 
