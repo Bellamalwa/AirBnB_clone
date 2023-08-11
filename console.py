@@ -21,9 +21,7 @@ class HBNBCommand(cmd.Cmd):
     """This class is the entry point of the command intepreter"""
 
     prompt = "(hbnb)"
-    __all_classes = {"BaseModel", "User", "State", "City", "Amenity", "Place", "Review"}
 
-    """ TODO: Eventually refactor & use key/pair values
     __all_classes = {
         "BaseModel": BaseModel,
         "User": User,
@@ -33,7 +31,6 @@ class HBNBCommand(cmd.Cmd):
         "Place": Place,
         "Review": Review,
     }
-    """
 
     def do_quit(self, line):
         """Quit command to exit the program"""
@@ -58,30 +55,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
 
-            obj = eval("{}()".format(classname))
-            # NOTE: Meant to help parse obj into dict for storage
-            for i in range(1, len(my_list)):
-                regexPattern = r"^(\S+)\=(\S+)"
-                match = regex.search(regexPattern, my_list[i])
-                if not match:
-                    continue
-                key = match.group(1)
-                value = match.group(2)
-                cast = None
-                if not regex.search('^".*"$', value):
-                    if "." in value:
-                        cast = float
-                    else:
-                        cast = int
-                else:
-                    value = value.replace('"', "")
-                    value = value.replace("_", " ")
-                if cast:
-                    try:
-                        value = cast(value)
-                    except ValueError:
-                        pass
-                setattr(obj, key, value)
+            obj = self.__all_classes[classname]()
             obj.save()
             print("{}".format(obj.id))
 
@@ -214,15 +188,15 @@ class HBNBCommand(cmd.Cmd):
         new_list = []
         new_list.append(args[0])
         try:
-            my_dict = eval(args[1][args[1].find("{") : args[1].find("}") + 1])
+            my_dict = eval(args[1][args[1].find("{"): args[1].find("}") + 1])
         except Exception:
             my_dict = None
         if isinstance(my_dict, dict):
-            new_str = args[1][args[1].find("(") + 1 : args[1].find(")")]
+            new_str = args[1][args[1].find("(") + 1: args[1].find(")")]
             new_list.append(((new_str.split(", "))[0]).strip('"'))
             new_list.append(my_dict)
             return new_list
-        new_str = args[1][args[1].find("(") + 1 : args[1].find(")")]
+        new_str = args[1][args[1].find("(") + 1: args[1].find(")")]
         new_list.append(" ".join(new_str.split(", ")))
         return " ".join(i for i in new_list)
 
