@@ -16,7 +16,7 @@ class FileStorage:
     """
 
     __file_path = "file.json"
-    __objects = {}
+    __objects = dict()
 
     def all(self):
         """
@@ -41,7 +41,8 @@ class FileStorage:
         Saves the object blob to File Storage
         new_obj is a dictionary format for the object storage
         """
-        new_obj = {key: values.to_dict() for key, values in self.__objects.items()}
+        new_obj = {key: values.to_dict()
+                   for key, values in self.__objects.items()}
         with open(self.__file_path, "w", encoding="utf8") as file:
             file.write(json.dumps(new_obj))
 
@@ -50,10 +51,25 @@ class FileStorage:
         This loads objects from the specified file.
         If not present still pass the function
         """
-        from models.base_model import BaseModel
 
-        # NOTE: Bring the BaseModel for easy retrieval
-        class_dict = {"BaseModel": BaseModel}
+        from models.base_model import BaseModel
+        from models.amenity import Amenity
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+        from models.user import User
+
+        # NOTE: Bring models for list comparison
+        class_dict = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review,
+        }
 
         try:
             with open(self.__file_path, "r") as file:

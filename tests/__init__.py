@@ -1,3 +1,0 @@
-#!/usr/bin/python3
-
-# NOTE: Empty file need to trigger tests...
