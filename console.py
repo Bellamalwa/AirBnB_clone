@@ -40,9 +40,9 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program at end of file"""
         return True
 
-    def do_emptyline(self):
+    def emptyline(self):
         """ "Do nothing with empty lines"""
-        return True
+        pass
 
     def do_create(self, line):
         """Creates a new instance of specified class & saves it"""
