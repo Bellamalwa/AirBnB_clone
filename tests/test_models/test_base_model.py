@@ -74,6 +74,12 @@ class TestBaseModel_Str(TestCase):
 
 class TestBaseModel_Dict(TestCase):
     """Test to_dict attributes for BaseModel Class"""
+    
+    def test_to_dict_normal_case(self):
+        """Normal use case for to_dict"""
+        model_1 = BaseModel()
+        dict_value = model_1.to_dict()
+        self.assertDictEqual(dict_value, model_1.to_dict())
 
     def test_dict_attr_case(self):
         """Test the attribute for to_dict"""
